@@ -1,6 +1,6 @@
 body {
-    font-family: Arial, sans-serif;
-    overflow: hidden;
+    font-family: Arial, sans-serif; 
+    
 }
 #header{ 
     width: 70%;
@@ -35,7 +35,7 @@ body {
     padding: 6px;
     box-sizing: border-box;
     width: 60%;
-    margin: 0 auto;
+    margin: 0 auto;   
    
 }
 #schedule-row {
@@ -103,9 +103,50 @@ body {
     background-color: red;
     color: white;
 }
-#task-holder{
-    margin: 7em auto;
-    width: 50%;
-    border: 3px solid red;
-    height: 3em; 
+.tasks{ 
+    width: 80%;
+    border: 4px solid #eeee;
+    height: fit-content; 
+    margin: .5em auto;
+    padding: 7px; 
+}
+.bButton{
+    width: fit-content;
+    margin: 5px auto;
+}
+.backBtn,#modify,#delete{
+    padding: 5px;
+    background-color: black;
+    color: white;
+    font-size: 1.1em;
+    cursor: pointer;
+    border-radius: 7px;
+}
+#delete{
+    background-color: red; 
+    padding: 3px;
+}
+#modify{
+    background-color: green;
+    padding: 3px;
+    margin-right: 12px;
+    margin-left: 17em;
+}
+.saveTime{
+    width: 100%; 
+    display: flex;
+    justify-content: space-around; 
+    font-size: 1.2em;
+}
+.time{
+    width: 15%;
+    text-align: right;
+    padding: 5px;
+    font-weight: 700;
+}
+.elData{
+    width: 80%;
+    text-align: left;
+    padding: 5px;
+    font-family:cursive;
 }

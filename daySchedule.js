@@ -5,6 +5,9 @@ const dateOutputEl = document.getElementById("output");
  
 const confirmDialogEl = document.getElementById("confirmClose");
 
+const taskFormEl = document.getElementById("taskForm");
+
+const headerEl = document.getElementById("header"); 
 const input1 = document.getElementById("schedule-input1");
 const input2 = document.getElementById("schedule-input2");
 const input3 = document.getElementById("schedule-input3");
@@ -20,8 +23,7 @@ const scheduleInputEl = document.getElementById("schedule-input");
 const deleteTaskEl = document.getElementById("delete-task");
 const saveEl = document.getElementById("save");
 const discardBtnEl = document.getElementById("discard-btn");
-const cancelBtnEl = document.getElementById("cancel-btn");
-
+const cancelBtnEl = document.getElementById("cancel-btn"); 
  //date details
  const date = new Date();   
  const min = date.getMinutes();
@@ -34,46 +36,48 @@ const cancelBtnEl = document.getElementById("cancel-btn");
 
  selectEl.addEventListener("change",()=>{
     switch(selectEl.value){
-        case "d-m-y":dateOutputEl.textContent = defaultFormat;
+        case "d-m-y":dateOutputEl.textContent = defaultFormat; 
         break;
-        case "y-m-d":dateOutputEl.textContent = `${year} - ${mon} - ${day}`;
+        case "y-m-d":dateOutputEl.textContent = `${year} - ${mon} - ${day}`;  
         break;
         case "h-m-s-d-m-y":dateOutputEl.textContent = `${hrs} hrs ${min} min |  ${day} - ${mon} - ${year}`;
         break;
         default:dateOutputEl.textContent = defaultFormat;
-    }
-
+    } 
  });
-
  toggleBtnEl.addEventListener("click",()=>{
-    dateOutputEl.textContent = defaultFormat;
+    //dateOutputEl.textContent = defaultFormat;
     scheduleEl.classList.toggle("hide");
     toggleBtnEl.style.display = 'none';
  });
 
 
  //start on the task
-const dataArray = [];
-let currenData = {};
+const dataArray = JSON.parse(localStorage.getItem("savedData")) || [];
+let currentData = {};
 
 deleteTaskEl.addEventListener("click",()=>{
     confirmDialogEl.showModal();
 });
-
-cancelBtnEl.addEventListener("click",()=>{
-    confirmDialogEl.close();
+ 
+cancelBtnEl.addEventListener("click",()=>{ 
+        confirmDialogEl.close(); 
 });
 
 discardBtnEl.addEventListener("click",()=>{
-    confirmDialogEl.close();
-    scheduleEl.classList.toggle("hide");
+    confirmDialogEl.close(); 
     toggleBtnEl.style.display = "" ? "block" : "";
+    input1.value = "";
+    input2.value = "";
+    input3.value = "";
+    input4.value = "";
+    input5.value = "";
 });
 
-saveEl.addEventListener("submit",(e)=>{
+taskFormEl.addEventListener("submit",(e)=>{
     e.preventDefault();
     //let find index of the data if it exists in array
-    let foundIndex = dataArray.findIndex((item) => item.id === currenData.id);
+    let foundIndex = dataArray.findIndex((item) => item.id === currentData.id);
     //get an object with id of each input value
     //Date.now() returns the number of milliseconds elapsed since January to be unique
     const getInputObj = {
@@ -87,21 +91,69 @@ saveEl.addEventListener("submit",(e)=>{
 
     if(foundIndex === -1){
         dataArray.unshift(getInputObj);
+    }else{
+        dataArray[foundIndex] = getInputObj;
     }
+
+    
+localStorage.setItem("savedData",JSON.stringify(dataArray));
+
+if(dataArray.length){
+    taskHolderEl.innerHTML = "";
 //destructuring
+taskHolderEl.innerHTML += `<div class="bButton"><button onclick="addFunc()" class="backBtn"> Add New </button></div>`;
     dataArray.forEach(({id,input1Prop,input2Prop,input3Prop,input4Prop,input5Prop}) => {
-        (taskHolderEl.innerHTML += `
-        <div class='tasks' id='${id}'>
-        <p>8:00AM : ${input1Prop}</p>
-        <p>10:00AM : ${input2Prop}</p>
-        <p>12:00AM : ${input3Prop}</p>
-        <p>2:00AM : ${input4Prop}</p>
-        <p>4:00AM : ${input5Prop}</p>
-        <button type="button" id="modify">Modify</button>
-        <button type="button" id="delete">Delete</button>
-        </div>`)
-    });
-    scheduleEl.classList.toggle("hide");
+    taskHolderEl.innerHTML += `<div class='tasks' id='${id}'>
+        <p id="output">${defaultFormat}</p>
+        <div class="saveTime"><span class="time">8:00 AM :</span> <span class="elData">${input1Prop}</span></div>
+        <div class="saveTime"><span class="time">10:00 AM :</span> <span class="elData">${input2Prop}</span></div>
+        <div class="saveTime"><span class="time">12:00 AM :</span>  <span class="elData">${input3Prop}</span></div>
+        <div class="saveTime"><span class="time">2:00 AM :</span>  <span class="elData">${input4Prop}</span></div>
+        <div class="saveTime"><span class="time">4:00 AM :</span> <span class="elData"> ${input5Prop}</span></div>
+        <button type="button" id="modify" onclick="modifyFun(this)">Modify</button>
+        <button type="button" id="delete" onclick="deleteFun(this)">Delete</button>
+        </div>`});
+    }
+    headerEl.innerHTML = "";
+    scheduleEl.classList.toggle("hide"); 
 });
+const headerElemOriginal = document.getElementById("header").innerHTML;
+function addFunc(){
+    scheduleEl.classList.toggle("hide");  
+    taskHolderEl.innerHTML = "";
+    headerEl.innerHTML = headerElemOriginal;
+    toggleBtnEl.style.display = "" ? "block" : "";
+    input1.value = "";
+    input2.value = "";
+    input3.value = "";
+    input4.value = "";
+    input5.value = "";
+} 
+ //use this to access parent element
+ function deleteFun(btn){
+    const parent = btn.parentElement;
+    const index = dataArray.findIndex((item) => item.id === parent.id);
+    parent.remove();
+    dataArray.splice(index, 1);
+    //already used splice to remove so just add
+    localStorage.setItem("savedData".JSON.stringify(dataArray));
+ }
+ function modifyFun(btn){
+    let parent = btn.parentElement;
+    const index = dataArray.findIndex((item) => item.id === parent.id);
+    currentData = dataArray[index];
+    //take values from submit
+    input1.value = currentData.input1Prop;
+    input2.value = currentData.input2Prop;
+    input3.value = currentData.input3Prop;
+    input4.value = currentData.input4Prop;
+    input5.value = currentData.input5Prop;
+
+    saveEl.innerText = "Update"; 
+    scheduleEl.classList.toggle("hide"); 
+    taskHolderEl.innerHTML = "";
+ }
+
+
 
  

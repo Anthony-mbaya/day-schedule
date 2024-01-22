@@ -16,13 +16,12 @@
              <option value="d-m-y">Day / Month / Year</option>
              <option value="y-m-d">Year / Month / Day</option>
              <option value="h-m-s-d-m-y">Time / Day / Month / Year</option>
-    
          </select> 
          <button id="toggleBtn">Toggle</button>
          <p id="output">Date</p>
    </div>
  
-<form>
+<form id="taskForm">
     <div id="schedule" class="hide">
         <div id="schedule-row"> 
             <span id="schedule-time">8:00 AM</span>
@@ -51,7 +50,7 @@
 </form>
         <dialog id="confirmClose">
         <form method="dialog">
-            <p id="discard">Discard the unsaved?</p>
+            <p id="discard">Discard the unsaved?</p> 
             <div id="dialog-buttons">
                 <button id="discard-btn">Discard</button>
                 <button id="cancel-btn">Cancel</button>
@@ -59,7 +58,7 @@
         </form>
         </dialog>
     </div>
-    <div id="task-holder"></div>
+    <div id="task-holder"></div> 
 
     <script src="daySchedule.js"></script>
 </body>
