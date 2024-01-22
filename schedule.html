@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>day schedule</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="header">
+         <h1>Welcome to Day Schedule App</h1>
+         <h2>Enter Your Date Format</h2>
+         <select id="select">
+             <option value="">Date Format</option>
+             <option value="d-m-y">Day / Month / Year</option>
+             <option value="y-m-d">Year / Month / Day</option>
+             <option value="h-m-s-d-m-y">Time / Day / Month / Year</option>
+    
+         </select> 
+         <button id="toggleBtn">Toggle</button>
+         <p id="output">Date</p>
+   </div>
+ 
+<form>
+    <div id="schedule" class="hide">
+        <div id="schedule-row"> 
+            <span id="schedule-time">8:00 AM</span>
+            <input type="text" class="schedule-input" id="schedule-input1" placeholder="Enter task" required>
+        </div>
+        <div id="schedule-row"> 
+            <span id="schedule-time">10:00 AM</span>
+            <input type="text" class="schedule-input" id="schedule-input2" placeholder="Enter task">
+        </div> 
+        <div id="schedule-row"> 
+            <span id="schedule-time">12:00 PM</span>
+            <input type="text" class="schedule-input" id="schedule-input3" placeholder="Enter task">
+        </div> 
+        <div id="schedule-row"> 
+            <span id="schedule-time">2:00 PM</span>
+            <input type="text" class="schedule-input" id="schedule-input4" placeholder="Enter task">
+        </div> 
+        <div id="schedule-row"> 
+            <span id="schedule-time">4:00 PM</span>
+            <input type="text" class="schedule-input" id="schedule-input5" placeholder="Enter task">
+        </div> 
+        <div id="schedule-row">
+           <button type="submit" id="save">SAVE</button>
+           <button id="delete-task" type="button" aria-label="close">CLEAR</button>
+        </div>
+</form>
+        <dialog id="confirmClose">
+        <form method="dialog">
+            <p id="discard">Discard the unsaved?</p>
+            <div id="dialog-buttons">
+                <button id="discard-btn">Discard</button>
+                <button id="cancel-btn">Cancel</button>
+            </div>
+        </form>
+        </dialog>
+    </div>
+    <div id="task-holder"></div>
+
+    <script src="daySchedule.js"></script>
+</body>
+</html>
